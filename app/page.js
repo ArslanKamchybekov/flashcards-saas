@@ -1,113 +1,198 @@
-import Image from "next/image";
+// pages/index.js (or Home component)
+import { Box, Button, Grid, Typography, Card, CardContent, Image, Container } from '@mui/material';
+import { SignedOut } from '@clerk/nextjs';
+import Head from 'next/head';
+import { Poppins } from 'next/font/google';
+
+const poppins = Poppins({
+  weight: ['400', '600', '700'],
+  subsets: ['latin'],
+});
 
 export default function Home() {
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      <Head>
+        <title>Flashcard App</title>
+        <meta name="description" content="Create and study flashcards with ease" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Box sx={{ textAlign: 'center', color: '#E0E0E0', py: 6, backgroundColor: '#1E1E1E' }}>
+        <Typography
+          variant="h2"
+          align="center"
+          sx={{
+            mt: 4,
+            color: '#ffffff',
+            fontFamily: poppins.style.fontFamily,
+            fontWeight: 800,
+          }}
+        >
+          Welcome to Flashcard SaaS
+        </Typography>
+        <Typography variant="h5" align="center" sx={{ mt: 2, fontFamily: poppins.style.fontFamily }}>
+          Create and study flashcards with ease
+        </Typography>
+        <SignedOut>
+          <Button
+            variant="contained"
+            sx={{
+              mt: 4,
+              padding: '10px 26px',
+              backgroundColor: '#00B8D4',
+              color: '#ffffff',
+              borderRadius: 4,
+              fontFamily: poppins.style.fontFamily,
+              fontWeight: 600,
+              '&:hover': {
+                backgroundColor: '#008C9E',
+              },
+            }}
+            href="/sign-in"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+            Get Started
+          </Button>
+        </SignedOut>
+      </Box>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <Container sx={{ mt: 8 }}>
+        {/* Features Section */}
+        <Typography variant="h4" align="center" sx={{ mb: 4, fontFamily: poppins.style.fontFamily, fontWeight: 700 }}>
+          Features
+        </Typography>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent 
+                sx={{ 
+                  bgcolor: '#2E2E2E',
+                  color: '#ffffff',
+                  borderRadius: 2,
+                }}
+              >
+                <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }} >
+                  Easy Flashcard Creation
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 2 }}>
+                  Quickly create flashcards with a user-friendly interface that saves you time.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent
+                sx={{ 
+                  bgcolor: '#2E2E2E',
+                  color: '#ffffff',
+                  borderRadius: 2,
+                }}
+              >
+                <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                  Study Anywhere
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 2 }}>
+                  Access your flashcards on any device and study on the go.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent
+                sx={{ 
+                  bgcolor: '#2E2E2E',
+                  color: '#ffffff',
+                  borderRadius: 2,
+                }}
+              >
+                <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                  Track Your Progress
+                </Typography>
+                <Typography variant="body1" sx={{ mt: 2 }}>
+                  Monitor your learning with progress tracking and stats.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        {/* Call to Action */}
+        <Box sx={{ textAlign: 'center', mt: 8 }}>
+          <Button
+            variant="contained"
+            sx={{
+              padding: '10px 26px',
+              backgroundColor: '#00B8D4',
+              color: '#ffffff',
+              borderRadius: 4,
+              fontFamily: poppins.style.fontFamily,
+              fontWeight: 600,
+              '&:hover': {
+                backgroundColor: '#008C9E',
+              },
+            }}
+            href="/sign-in"
+          >
+            Explore Features
+          </Button>
+        </Box>
+      </Container>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      {/* FAQ Section */}
+      <Box sx={{ mt: 8, py: 6, backgroundColor: '#2E2E2E', color: '#E0E0E0' }}>
+        <Container>
+          <Typography variant="h4" align="center" sx={{ mb: 4, fontFamily: poppins.style.fontFamily, fontWeight: 700, color: "white"}}>
+            Frequently Asked Questions
+          </Typography>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                How do I create a flashcard?
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                To create a flashcard, simply click on the "Create Flashcard" button and enter the question and answer.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                Can I study my flashcards on my phone?
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                Yes, you can access your flashcards on any device with an internet connection.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                How do I track my progress?
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                You can track your progress by viewing your stats and performance on the dashboard.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                Is Flashcard SaaS free to use?
+              </Typography>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                Yes, Flashcard SaaS is free to use with no hidden fees or subscriptions.
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      {/* Footer */}
+      <Box sx={{ mt: 8, py: 4, backgroundColor: '#1E1E1E', color: '#E0E0E0', textAlign: 'center' }}>
+        <Typography variant="body2" sx={{ fontFamily: poppins.style.fontFamily }}>
+          &copy; {new Date().getFullYear()} Flashcard SaaS. All rights reserved.
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 1, fontFamily: poppins.style.fontFamily }}>
+          <a href="/privacy-policy" style={{ color: '#00B8D4', textDecoration: 'none' }}>Privacy Policy</a> | <a href="/terms" style={{ color: '#00B8D4', textDecoration: 'none' }}>Terms of Service</a>
+        </Typography>
+      </Box>
+    </>
   );
 }
