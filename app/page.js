@@ -1,8 +1,13 @@
-// pages/index.js (or Home component)
-import { Box, Button, Grid, Typography, Card, CardContent, Image, Container } from '@mui/material';
+"use client"
+import { Box, Button, Grid, Typography, Card, CardContent, CircularProgress, Container, TextField } from '@mui/material';
 import { SignedOut } from '@clerk/nextjs';
 import Head from 'next/head';
 import { Poppins } from 'next/font/google';
+import { useEffect, useState } from 'react';
+import { doc, collection, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 const poppins = Poppins({
   weight: ['400', '600', '700'],
@@ -10,6 +15,27 @@ const poppins = Poppins({
 });
 
 export default function Home() {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [flashcards, setFlashcards] = useState([]);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');  // State for search input
+  const router = useRouter();
+
+  if (!isLoaded) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ textAlign: 'center', py: 6 }}>
+        <Typography variant="h4">An error occurred. Please try again later.</Typography>
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -36,110 +62,27 @@ export default function Home() {
           Create and study flashcards with ease
         </Typography>
         <SignedOut>
-          <Button
-            variant="contained"
-            sx={{
-              mt: 4,
-              padding: '10px 26px',
-              backgroundColor: '#00B8D4',
-              color: '#ffffff',
-              borderRadius: 4,
-              fontFamily: poppins.style.fontFamily,
-              fontWeight: 600,
-              '&:hover': {
-                backgroundColor: '#008C9E',
-              },
-            }}
-            href="/sign-in"
-          >
-            Get Started
-          </Button>
+          <Box sx={{ textAlign: 'center', mt: 8 }}>
+            <Button
+              variant="contained"
+              sx={{
+                padding: '10px 26px',
+                backgroundColor: '#00B8D4',
+                color: '#ffffff',
+                borderRadius: 4,
+                fontFamily: poppins.style.fontFamily,
+                fontWeight: 600,
+                '&:hover': {
+                  backgroundColor: '#008C9E',
+                },
+              }}
+              href="/sign-in"
+            >
+              Explore Features
+            </Button>
+          </Box>
         </SignedOut>
       </Box>
-
-      <Container sx={{ mt: 8 }}>
-        {/* Features Section */}
-        <Typography variant="h4" align="center" sx={{ mb: 4, fontFamily: poppins.style.fontFamily, fontWeight: 700 }}>
-          Features
-        </Typography>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent 
-                sx={{ 
-                  bgcolor: '#2E2E2E',
-                  color: '#ffffff',
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }} >
-                  Easy Flashcard Creation
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                  Quickly create flashcards with a user-friendly interface that saves you time.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent
-                sx={{ 
-                  bgcolor: '#2E2E2E',
-                  color: '#ffffff',
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
-                  Study Anywhere
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                  Access your flashcards on any device and study on the go.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Card>
-              <CardContent
-                sx={{ 
-                  bgcolor: '#2E2E2E',
-                  color: '#ffffff',
-                  borderRadius: 2,
-                }}
-              >
-                <Typography variant="h6" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
-                  Track Your Progress
-                </Typography>
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                  Monitor your learning with progress tracking and stats.
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Call to Action */}
-        <Box sx={{ textAlign: 'center', mt: 8 }}>
-          <Button
-            variant="contained"
-            sx={{
-              padding: '10px 26px',
-              backgroundColor: '#00B8D4',
-              color: '#ffffff',
-              borderRadius: 4,
-              fontFamily: poppins.style.fontFamily,
-              fontWeight: 600,
-              '&:hover': {
-                backgroundColor: '#008C9E',
-              },
-            }}
-            href="/sign-in"
-          >
-            Explore Features
-          </Button>
-        </Box>
-      </Container>
 
       {/* FAQ Section */}
       <Box sx={{ mt: 8, py: 6, backgroundColor: '#2E2E2E', color: '#E0E0E0' }}>

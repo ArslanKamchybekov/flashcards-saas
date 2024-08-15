@@ -3,13 +3,14 @@ import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { getDocs, setDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
-import { Container, Grid, Card, CardActionArea, CardContent, Typography, Box, CircularProgress } from "@mui/material";
+import { Container, Grid, Card, CardActionArea, CardContent, Typography, Box, CircularProgress, TextField } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 
 export default function Flashcard() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [flashcards, setFlashcards] = useState([]);
   const [flipped, setFlipped] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");  // State for search term
 
   const searchParams = useSearchParams();
   const search = searchParams.get("id");
@@ -32,6 +33,16 @@ export default function Flashcard() {
     setFlipped((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);  // Update search term
+  };
+
+  // Filter flashcards based on the search term
+  const filteredFlashcards = flashcards.filter(flashcard =>
+    flashcard.front.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    flashcard.back.toLowerCase().includes(searchTerm.toLowerCase())  // Search both front and back of the card
+  );
+
   if (!isLoaded) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
@@ -52,7 +63,17 @@ export default function Flashcard() {
 
   return (
     <Container maxWidth="lg" sx={{ my: 4 }}>
-      {flashcards.length === 0 ? (
+      {/* Search Field */}
+      <TextField
+        fullWidth
+        label="Search Flashcards"
+        variant="outlined"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        sx={{ mb: 4 }}
+      />
+
+      {filteredFlashcards.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 10 }}>
           <Typography variant="h4" sx={{ color: "#888", mb: 2 }}>
             No flashcards available!
@@ -63,7 +84,7 @@ export default function Flashcard() {
         </Box>
       ) : (
         <Grid container spacing={4}>
-          {flashcards.map((flashcard, index) => (
+          {filteredFlashcards.map((flashcard, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card
                 sx={{
@@ -98,6 +119,7 @@ export default function Flashcard() {
                         backgroundColor: "#f5f5f5",
                         borderRadius: 2,
                         boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+                        overflow: "auto", // Allow content to scroll
                       }}
                     >
                       <Typography variant="h5" sx={{ fontWeight: "bold", color: "#333" }}>
@@ -119,9 +141,10 @@ export default function Flashcard() {
                         borderRadius: 2,
                         boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
                         transform: "rotateY(180deg)",
+                        overflow: "auto", // Allow content to scroll
                       }}
                     >
-                      <Typography variant="h5" sx={{ color: "white", fontWeight: "bold" }}>
+                      <Typography variant="h7" sx={{ color: "white", fontWeight: "bold" }}>
                         {flashcard.back}
                       </Typography>
                     </CardContent>

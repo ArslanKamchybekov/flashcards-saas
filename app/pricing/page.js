@@ -27,74 +27,91 @@ export default function PricingPage() {
     }
 
     return(
-        <Box sx={{ py: 4, backgroundColor: '#1E1E1E' }}>
-          <Typography variant="h4" align="center" sx={{ color: '#00B8D4', fontFamily: poppins.style.fontFamily, fontWeight: 700, mb: 4 }}>
-            Pricing Options
-          </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={4}>
-              <Card sx={{ bgcolor: '#2E2E2E', color: '#ffffff', textAlign: 'center', borderRadius: 4 }}>
-                <CardContent>
-                  <Typography variant="h5" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
-                    Free
-                  </Typography>
-                  <Typography variant="h6" sx={{ mt: 2, fontFamily: poppins.style.fontFamily }}>
-                    $0 / month
-                  </Typography>
-                  <Typography sx={{ mt: 2, color: '#B0BEC5' }}>
-                    Basic features for personal use.
-                  </Typography>
-                </CardContent>
-                <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
-                  <Button variant="contained" sx={{ backgroundColor: '#00B8D4', '&:hover': { backgroundColor: '#008C9E' } }}>
-                    Sign Up
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Card sx={{ bgcolor: '#2E2E2E', color: '#ffffff', textAlign: 'center', borderRadius: 4 }}>
-                <CardContent>
-                  <Typography variant="h5" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
-                    Pro
-                  </Typography>
-                  <Typography variant="h6" sx={{ mt: 2, fontFamily: poppins.style.fontFamily }}>
-                    $9.99 / month
-                  </Typography>
-                  <Typography sx={{ mt: 2, color: '#B0BEC5' }}>
-                    Advanced features for professionals.
-                  </Typography>
-                </CardContent>
-                <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
-                  <Button variant="contained" sx={{ backgroundColor: '#00B8D4', '&:hover': { backgroundColor: '#008C9E' } }}>
-                    Get Started
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Card sx={{ bgcolor: '#2E2E2E', color: '#ffffff', textAlign: 'center', borderRadius: 4 }}>
-                <CardContent>
-                  <Typography variant="h5" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
-                    Premium
-                  </Typography>
-                  <Typography variant="h6" sx={{ mt: 2, fontFamily: poppins.style.fontFamily }}>
-                    $49.99 / month
-                  </Typography>
-                  <Typography sx={{ mt: 2, color: '#B0BEC5' }}>
-                    All features for large teams.
-                  </Typography>
-                </CardContent>
-                <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
-                  <Button variant="contained" sx={{ backgroundColor: '#00B8D4', '&:hover': { backgroundColor: '#008C9E' } }} onClick={handleSubmit}>
-                    Get Started
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          </Grid>
-        </Box>
+      <Box sx={{ py: 4, backgroundColor: '#1E1E1E', textAlign: 'center' }}>
+      <Typography
+        variant="h4"
+        sx={{
+          color: '#00B8D4',
+          fontFamily: poppins.style.fontFamily,
+          fontWeight: 700,
+          mb: 4,
+        }}
+      >
+        Pricing Options
+      </Typography>
+      <Grid container spacing={4} justifyContent="center">
+        <Grid item xs={12} md={4}>
+          <Card sx={{ bgcolor: '#2E2E2E', color: '#ffffff', textAlign: 'center', borderRadius: 4 }}>
+            <CardContent>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}
+              >
+                Free
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ mt: 2, fontFamily: poppins.style.fontFamily }}
+              >
+                $0 / month
+              </Typography>
+              <Typography sx={{ mt: 2, color: '#B0BEC5' }}>
+                Basic features for personal use.
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#00B8D4',
+                  fontFamily: poppins.style.fontFamily,
+                  fontWeight: 600,
+                  '&:hover': { backgroundColor: '#008C9E', fontFamily: poppins.style.fontFamily, fontWeight: 800 }
+                }}
+              >
+                Sign Up
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+    
+        <Grid item xs={12} md={4}>
+          <Card sx={{ bgcolor: '#2E2E2E', color: '#ffffff', textAlign: 'center', borderRadius: 4 }}>
+            <CardContent>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}
+              >
+                Pro
+              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ mt: 2, fontFamily: poppins.style.fontFamily }}
+              >
+                $9.99 / month
+              </Typography>
+              <Typography sx={{ mt: 2, color: '#B0BEC5' }}>
+                All features for large teams.
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#00B8D4',
+                  fontFamily: poppins.style.fontFamily,
+                  fontWeight: 600,
+                  '&:hover': { backgroundColor: '#008C9E', fontFamily: poppins.style.fontFamily, fontWeight: 800 }
+                }}
+                onClick={handleSubmit}
+              >
+                Get Started
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
+    
     )
 }

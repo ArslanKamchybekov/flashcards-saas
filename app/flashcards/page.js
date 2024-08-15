@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { getDoc, setDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useRouter } from "next/navigation";
-import { Container, Grid, Card, CardActionArea, CardContent, Typography, Box, CircularProgress } from "@mui/material";
+import { Container, Grid, Card, CardActionArea, CardContent, Typography, Box, CircularProgress, TextField } from "@mui/material";
 
 export default function Flashcards() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [flashcards, setFlashcards] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +32,14 @@ export default function Flashcards() {
     router.push(`/flashcard?id=${id}`);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredFlashcards = flashcards.filter(flashcard =>
+    flashcard.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (!isLoaded) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
@@ -51,18 +60,28 @@ export default function Flashcards() {
 
   return (
     <Container maxWidth="lg" sx={{ my: 4 }}>
-      {flashcards.length === 0 ? (
+      <Box sx={{ mb: 4 }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Search Flashcards"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          sx={{ mb: 2 }}
+        />
+      </Box>
+      {filteredFlashcards.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 10 }}>
           <Typography variant="h4" sx={{ color: "#888", mb: 2 }}>
-            You don't have any flashcards yet!
+            No flashcards found!
           </Typography>
           <Typography variant="body1" sx={{ color: "#aaa" }}>
-            Start creating your flashcards to organize your study material.
+            Try adjusting your search criteria or create new flashcards.
           </Typography>
         </Box>
       ) : (
         <Grid container spacing={4}>
-          {flashcards.map((flashcard, index) => (
+          {filteredFlashcards.map((flashcard, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Card
                 sx={{
