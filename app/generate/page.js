@@ -7,7 +7,6 @@ import { writeBatch, getDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Poppins } from 'next/font/google';
 
-// Load the Poppins font
 const poppins = Poppins({
     weight: ['400', '600', '700'], 
     subsets: ['latin'],
