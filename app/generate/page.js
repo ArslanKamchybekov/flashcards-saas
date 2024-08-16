@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import { Container, Grid, Card, CardActionArea, CardContent, Box, Typography, Paper, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Container, Grid, Card, CardActionArea, CardContent, Box, Typography, Paper, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Input } from "@mui/material";
 import { writeBatch, getDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Poppins } from 'next/font/google';
@@ -18,27 +18,31 @@ export default function GenerateFlashcards() {
     const [flashcards, setFlashcards] = useState([]);
     const [flipped, setFlipped] = useState([]);
     const [text, setText] = useState('');
+    const [image, setImage] = useState(null);
     const [name, setName] = useState('');
     const [open, setOpen] = useState(false);
 
     const router = useRouter();
 
-    const handleSubmit = async () => {
+    const handleTextSubmit = async () => {
         if (!text.trim()) {
             alert('Please enter some text to generate flashcards.');
             return;
         }
-      
+
         try {
             const response = await fetch('/api/generate', {
                 method: 'POST',
-                body: text,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text }),
             });
-      
+
             if (!response.ok) {
                 throw new Error('Failed to generate flashcards');
             }
-      
+
             const data = await response.json();
             setFlashcards(data);
         } catch (error) {
@@ -47,6 +51,49 @@ export default function GenerateFlashcards() {
         }
     };
 
+    const handleImageChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onloadend = () => {
+                setImage(reader.result); // Store the base64 string in the state
+            };
+            
+            reader.readAsDataURL(file); // Convert file to base64
+        }
+    };
+    
+    const handleImageSubmit = async () => {
+        if (!image) {
+            alert("Please select an image first.");
+            return;
+        }
+    
+        // Extract base64 string from data URL
+        const base64Image = image.split(",")[1];
+    
+        try {
+            const response = await fetch("/api/generate-image", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    image: base64Image, // Send base64 image directly
+                }),
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to process image");
+            }
+    
+            const data = await response.json();
+            setFlashcards(data);
+        } catch (error) {
+            console.error("Error generating flashcards from image:", error);
+            alert("An error occurred while processing the image. Please try again.");
+        }
+    };
+    
     const handleCardClick = (id) => {
         setFlipped((prev) => ({ ...prev, [id]: !prev[id] }));
     };
@@ -99,7 +146,7 @@ export default function GenerateFlashcards() {
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: 700, fontFamily: poppins.style.fontFamily }}>
                     Generate Flashcards
                 </Typography>
-                <Paper sx={{ p: 3, width: '100%', maxWidth: 600, mx: 'auto' }}>
+                <Paper sx={{ p: 3, width: '100%', maxWidth: 600, mx: 'auto', mb: 4 }}>
                     <TextField
                         label="Enter text to generate flashcards"
                         value={text}
@@ -112,7 +159,7 @@ export default function GenerateFlashcards() {
                     />
                     <Button
                         variant="contained"
-                        onClick={handleSubmit}
+                        onClick={handleTextSubmit}
                         fullWidth
                         sx={{
                             backgroundColor: '#00B8D4',
@@ -121,7 +168,29 @@ export default function GenerateFlashcards() {
                             '&:hover': { backgroundColor: '#008C9E' },
                         }}
                     >
-                        Generate
+                        Generate from Text
+                    </Button>
+                </Paper>
+
+                <Paper sx={{ p: 3, width: '100%', maxWidth: 600, mx: 'auto' }}>
+                    <Input
+                        type="file"
+                        onChange={handleImageChange}
+                        fullWidth
+                        sx={{ mb: 3 }}
+                    />
+                    <Button
+                        variant="contained"
+                        onClick={handleImageSubmit}
+                        fullWidth
+                        sx={{
+                            backgroundColor: '#00B8D4',
+                            color: '#ffffff',
+                            fontWeight: 600,
+                            '&:hover': { backgroundColor: '#008C9E' },
+                        }}
+                    >
+                        Generate from Image
                     </Button>
                 </Paper>
             </Box>
@@ -141,7 +210,7 @@ export default function GenerateFlashcards() {
                                         borderRadius: 2,
                                         textAlign: 'center',
                                         transformStyle: 'preserve-3d',
-                                        transition: 'transform 0.6s',                                        
+                                        transition: 'transform 0.6s',
                                     }}
                                 >
                                     <CardActionArea onClick={() => handleCardClick(index)}>
@@ -189,7 +258,7 @@ export default function GenerateFlashcards() {
                         fontWeight: 600,
                         color: '#00B8D4',
                         '&:hover': { backgroundColor: '#f5f5f5' },
-                    }} >Cancel</Button>
+                    }}>Cancel</Button>
                     <Button onClick={saveFlashcards} sx={{
                         fontWeight: 600,
                         backgroundColor: '#00B8D4',
