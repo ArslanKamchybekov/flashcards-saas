@@ -56,10 +56,10 @@ export default function GenerateFlashcards() {
             const reader = new FileReader();
             
             reader.onloadend = () => {
-                setImage(reader.result); // Store the base64 string in the state
+                setImage(reader.result);
             };
             
-            reader.readAsDataURL(file); // Convert file to base64
+            reader.readAsDataURL(file);
         }
     };
     
