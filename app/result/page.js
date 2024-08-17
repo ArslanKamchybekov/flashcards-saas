@@ -45,3 +45,5 @@ import { useEffect } from 'react'
         </Container>
     ) 
  }
+
+export default ResultPage

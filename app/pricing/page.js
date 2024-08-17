@@ -30,6 +30,16 @@ export default function PricingPage() {
         if (error) console.error(error);
     }
 
+    if (!isSignedIn) {
+        return (
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+                <Typography variant="h4" sx={{ fontFamily: poppins.style.fontFamily, fontWeight: 600 }}>
+                    Please sign in to view pricing options.
+                </Typography>
+            </Box>
+        );
+    }
+
     return (
         <Box sx={{ py: 4, textAlign: 'center' }}>
             <Typography
