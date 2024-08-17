@@ -22,6 +22,7 @@
     "openai": "^4.55.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-responsive-carousel": "^3.2.23",
     "stripe": "^16.7.0",
     "tesseract.js": "^5.1.0"
   },

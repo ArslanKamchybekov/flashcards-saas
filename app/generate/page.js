@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import { Container, Grid, Card, CardActionArea, CardContent, Box, Typography, Paper, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Input } from "@mui/material";
+import { Container, Grid, Card, CardActionArea, CardContent, Box, Typography, Paper, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Input, CircularProgress } from "@mui/material";
 import { writeBatch, getDoc, doc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Poppins } from 'next/font/google';
@@ -138,6 +138,24 @@ export default function GenerateFlashcards() {
         handleClose();
         router.push('/flashcards');
     };
+
+    if (!isLoaded) {
+        return (
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <CircularProgress />
+          </Box>
+        );
+      }
+    
+      if (!isSignedIn) {
+        return (
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", textAlign: "center" }}>
+            <Typography variant="h6" sx={{ color: "#888" }}>
+              Please sign in to generate.
+            </Typography>
+          </Box>
+        );
+      }
 
     return (
         <Container maxWidth="md" sx={{ fontFamily: poppins.style.fontFamily }}>

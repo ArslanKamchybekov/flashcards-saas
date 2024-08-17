@@ -17,7 +17,7 @@ import { useEffect } from 'react'
         const fetch = async () => {
             if (!session_id) return
             try {
-                const response = await fetch(`/api/checkout_session?session_id=${session_id}`)
+                const response = await fetch(`/api/pricingresult?session_id=${session_id}`)
                 const data = await response.json()
                 setSession(data)
             } catch (error) {

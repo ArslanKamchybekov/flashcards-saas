@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
             }}
             href="/"
           >
-            Flashcard SaaS
+            Flashify
           </Link>
           <SignedOut>
             <Button
@@ -63,13 +63,13 @@ const Layout = ({ children }) => {
               <Button
                 sx={{
                   color: '#ffffff',
-                  borderColor: '#00B8D4',
+                  borderColor: '#eeeeee',
                   fontFamily: poppins.style.fontFamily,
                   fontWeight: 600,
                 }}
                 href="/pricing"
               >
-                Pricing
+                Upgrade
               </Button>
               <Button
                 sx={{
@@ -81,17 +81,6 @@ const Layout = ({ children }) => {
                 href="/generate"
               >
                 Generate
-              </Button>
-              <Button
-                sx={{
-                  color: '#ffffff',
-                  borderColor: '#00B8D4',
-                  fontFamily: poppins.style.fontFamily,
-                  fontWeight: 600,
-                }}
-                href="/flashcards"
-              >
-                My Flashcards
               </Button>
               <UserButton />
             </Box>
